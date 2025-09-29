@@ -23,7 +23,7 @@ class HomeController extends AbstractController
     #[Route("/datatable", name: "datatable")]
     public function datatable(DatatableService $datatable, ArticleRepository $repo): Response
     {
-        dd($datatable);
+//        dd($datatable);
         $datas = $repo->findWithPaginate($datatable);
         return $this->json($datatable->format($datas, $repo), Response::HTTP_OK, [], ['groups' => 'article_datatable'] );
     }

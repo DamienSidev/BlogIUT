@@ -45,6 +45,14 @@ class ArticleRepository extends ServiceEntityRepository
                         dd($order);
                 }
             }
+
+            if ($datatable->getSearch() !== "") {
+                $orX = $qb->expr()->orX();
+                $orX->add($qb->expr()->like("a.title", ":search"));
+                $orX->add($qb->expr()->like("a.content", ":search"));
+                $qb->setParameter("search", "%" . $datatable->getSearch() . "%");
+                $qb->andWhere($orX);
+            }
         }
 //        dd(new Paginator($qb));
         return new Paginator($qb);
