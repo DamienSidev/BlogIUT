@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        {% for color, message in app.flashes %}
+            <div class="row">
+                <div class="alert alert-{{ color }}">
+                    {{ message[0] }}
+                </div>
+            </div>
+            {% dump color,message %}
+        {% endfor %}
+        <div class="card">
+            <div class="card-title">Mon article</div>
+            <div class="card-body">
+                <label class="fw-bold">Titre</label>
+                <p>{{ article.title }}</p>
+                <p><strong>Contenu</strong></p>
+                <p>{{ article.content | raw }}</p>
+                <em>Créé le : {{ article.createdAt | format_datetime('short', 'short', locale: 'fr') }}</em>
+                {#    <em>Créé le : {{ article.createdAt | date("d/m/Y à H:i") }}</em>#}
+            </div>
+            <div class="card-footer d-flex justify-content-end">
+                <a href="{{ path('home') }}" class="btn btn-secondary">Retour</a>
+                <a href="{{ path('article_edit', {id: article.id}) }}" class="btn btn-primary">
+                Modifier
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+    {{ article.title }}
+{% endblock %}
+

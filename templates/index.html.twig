@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Liste des articles</3></div>
+        </div>
+
+        <div class="card-body">
+            {% for article in articles %}
+                <div class="row">
+                    <p>{{ article.title }}</p>
+                    <p>{{ article.content | slice(0,10) }}</p>
+                    <a href="{{ path('article_show', {id: article.id}) }}">
+                        Voir l'article
+                    </a>
+                </div>
+            {% else %}
+                <div class="row">
+                    <p>Aucun article</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

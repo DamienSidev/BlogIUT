@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        mon home
+{#        <a href="{{ path('articles') }}">Mes articles</a>#}
+        <a href="https://google.com">Google</a>
+
+        <br>
+        {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.content) }}
+{#        <button>Envoyer</button>#}
+        {{ form_row(form.submit) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
