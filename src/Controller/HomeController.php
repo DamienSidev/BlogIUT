@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\PostType;
+use App\Repository\ArticleRepository;
+use App\Services\DatatableService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +17,15 @@ class HomeController extends AbstractController
     #[Route("/", name: "home")]
     public function home(EntityManagerInterface $em): Response
     {
-        return $this->render('index.html.twig', [
-            "articles" => $em->getRepository(Article::class)->findAll(),
-        ]);
+        return $this->render('index.html.twig');
+    }
+
+    #[Route("/datatable", name: "datatable")]
+    public function datatable(DatatableService $datatable, ArticleRepository $repo): Response
+    {
+        dd($datatable);
+        $datas = $repo->findWithPaginate($datatable);
+        return $this->json($datatable->format($datas, $repo), Response::HTTP_OK, [], ['groups' => 'article_datatable'] );
     }
 
     #[Route("/new", name: "new", methods: ["GET", "POST"])]

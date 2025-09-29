@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use IntlDateFormatter;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
@@ -13,13 +15,16 @@ class Article
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["article_datatable"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: false)]
     #[Assert\NotBlank(['message' => "Le titre ne peut pas être vide"])]
+    #[Groups(["article_datatable"])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(["article_datatable"])]
     private ?string $content = null;
 
     #[ORM\Column]
@@ -66,6 +71,13 @@ class Article
         return $this->createdAt;
     }
 
+    #[Groups(["article_datatable"])]
+    public function getCreatedAtFormatted(): ?string
+    {
+        $fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
+        return $fmt->format($this->createdAt);
+    }
+
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
@@ -76,6 +88,16 @@ class Article
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    #[Groups(["article_datatable"])]
+    public function getUpdatedAtFormatted(): ?string
+    {
+        if ($this->updatedAt === null) {
+            return "---";
+        }
+        $fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
+        return $fmt->format($this->updatedAt);
     }
 
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static

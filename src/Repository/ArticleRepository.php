@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Services\DatatableService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,28 +18,35 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-    //    /**
-    //     * @return Article[] Returns an array of Article objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findWithPaginate(DatatableService $datatable)
+    {
+        // SELECT * FROM article;
+        $qb = $this->createQueryBuilder("a");
 
-    //    public function findOneBySomeField($value): ?Article
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $qb->setFirstResult($datatable->getStart());
+        $qb->setMaxResults($datatable->getLength());
+
+        if (count($datatable->getOrder()) > 0) {
+            foreach ($datatable->getOrder() as $order) {
+                switch ($order["column"]) {
+                    case "title":
+                        $qb->addOrderBy('a.title', $order["dir"]);
+                        break;
+                    case "content":
+                        $qb->addOrderBy('a.content', $order["dir"]);
+                        break;
+                    case "createdAtFormatted":
+                        $qb->addOrderBy('a.createdAt', $order["dir"]);
+                        break;
+                    case "updatedAtFormatted":
+                        $qb->addOrderBy('a.updatedAt', $order["dir"]);
+                        break;
+                    default:
+                        dd($order);
+                }
+            }
+        }
+//        dd(new Paginator($qb));
+        return new Paginator($qb);
+    }
 }
