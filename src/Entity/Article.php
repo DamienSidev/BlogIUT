@@ -35,10 +35,12 @@ class Article
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["article_datatable"])]
     private ?Author $author = null;
 
     public function __construct()
     {
+
         $this->createdAt = new \DateTimeImmutable();
     }
     public function getId(): ?int

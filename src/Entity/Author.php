@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AuthorRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
 class Author
@@ -11,6 +12,7 @@ class Author
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["article_datatable"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -49,6 +51,12 @@ class Author
         $this->firstname = $firstname;
 
         return $this;
+    }
+
+    #[Groups(["article_datatable"])]
+    public function getUsername(): string
+    {
+        return $this->name . " " . $this->firstname;
     }
 
     public function getEmail(): ?string

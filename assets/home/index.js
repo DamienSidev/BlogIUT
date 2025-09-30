@@ -12,6 +12,10 @@ const $table = new DataTable('table.table', {
             data: 'content'
         },
         {
+            data: 'author.username',
+            defaultContent: '---'
+        },
+        {
             data: 'createdAtFormatted'
         },
         {
