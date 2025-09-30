@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class HomeController extends AbstractController
 {
@@ -50,6 +51,7 @@ class HomeController extends AbstractController
     }
 
     #[Route("/{id}", name: "article_show", requirements: ["id" => "\d+"], methods: ["GET"])]
+    #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function show(Article $article, EntityManagerInterface $em)
     {
 //        $article = $em->getRepository(Article::class)->find($id);
