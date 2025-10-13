@@ -1,6 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% for color, message in app.flashes %}
+        <div class="row">
+            <div class="alert alert-{{ color }}">
+                {{ message[0] }}
+            </div>
+        </div>
+    {% endfor %}
     <div id="calendar"></div>
 {% endblock %}
 

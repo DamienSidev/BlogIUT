@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,20 +20,21 @@ class PlanningController extends AbstractController
     }
 
     #[Route("/events", name: "events")]
-    public function events(Request $request)
+    public function events(Request $request, EventRepository $repo)
     {
-//        $start = new \DateTime($request->query->get("start"));
-//        $end = new \DateTime($request->query->get("end"));
-        return $this->json([
-            [
-             "title"=> 'Event1',
-             "start"=> '2025-10-13'
-         ],
-         [
-             "title"=> 'Event2',
-             "start"=>'2025-10-14',
-             "backgroundColor"=> 'white'
-         ]
-        ]);
+        $start = new \DateTime($request->query->get("start"));
+        $end = new \DateTime($request->query->get("end"));
+        $events = $repo->findByDate($start, $end);
+        $tabEvents = [];
+        foreach ($events as $event) {
+            $startDate = new \DateTimeImmutable($event->getDate()->format("Y-m-d 08:00:00"));
+            $endDate = $startDate->modify("+" . $event->getDuration() . " minutes");
+            $tabEvents[] = [
+                "title" => $event->getTitle(),
+                "start" => $startDate->format("Y-m-d H:i"),
+                "end" => $endDate->format("Y-m-d H:i")
+            ];
+        }
+        return $this->json($tabEvents);
     }
 }

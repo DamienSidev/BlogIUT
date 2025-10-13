@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title"><p>Ajout d'un évenement</p></div>
+        </div>
+        {{ form_start(form) }}
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-6">{{ form_row(form.title) }}</div>
+                <div class="col-lg-6">{{ form_row(form.date) }}</div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">{{ form_row(form.duration) }}</div>
+                <div class="col-lg-6">{{ form_row(form.place) }}</div>
+            </div>
+            <div class="row">
+                <div class="col">{{ form_row(form.users) }}</div>
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-end">
+            <button type="submit" class="btn btn-success">Valider</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
