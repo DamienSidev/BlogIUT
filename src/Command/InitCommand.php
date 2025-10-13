@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\Article;
+use App\Entity\User;
 use App\Kernel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -37,6 +38,7 @@ class InitCommand extends Command
         $io->progressStart(count($datas));
         foreach ($datas as $data) {
             $artcile = new Article();
+            $artcile->setAuthor($this->em->getRepository(User::class)->find(1));
             foreach ($data as $key => $value) {
                 switch ($key) {
                     case 'Title':
@@ -57,6 +59,11 @@ class InitCommand extends Command
                         dd($key, $value);
                 }
             }
+            match($artcile->getTitle()) {
+                "Article 1" => $artcile->setAuthor($this->em->getRepository(User::class)->find(1)),
+                "Article 2" => $artcile->setAuthor($this->em->getRepository(User::class)->find(2)),
+                "Article 3" => $artcile->setAuthor($this->em->getRepository(User::class)->find(3)),
+            };
             $this->em->persist($artcile);
 //            $this->em->flush();
             $io->progressAdvance();

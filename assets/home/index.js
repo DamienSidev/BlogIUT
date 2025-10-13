@@ -4,6 +4,7 @@ const $table = new DataTable('table.table', {
     serverSide: true,
     processing: true,
     ajax: "/datatable",
+    rowId: 'id',
     columns: [
         {
             data: "title"
@@ -32,4 +33,14 @@ const $table = new DataTable('table.table', {
             }
         }
     ]
+})
+
+$table.on('draw.dt', function () {
+    document.querySelectorAll('table > tbody > tr > td').forEach(el => {
+        el.addEventListener('click', function () {
+            console.log(el)
+            const row = el.parentNode
+            location.href = "/" + row.id
+        })
+    })
 })

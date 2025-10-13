@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route("/admin", name: "admin_")]
-#[IsGranted(["ROLE_ADMIN"])]
+//#[IsGranted(["ROLE_ADMIN"])]
 class AdminController extends AbstractController
 {
     #[Route('/', name: "index")]

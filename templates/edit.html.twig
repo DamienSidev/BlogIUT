@@ -11,8 +11,12 @@
             <div class="row mt-2">
                 {{ form_row(form.content) }}
             </div>
+            <div class="row mt-2">
+                {{ form_row(form.imageFile) }}
+            </div>
         </div>
-        <div class="card-footer d-flex justify-content-end">
+        <div class="card-footer d-flex justify-content-end gap-1">
+            <a href="{{ path('article_show', {id: article.id}) }}" class="btn btn-secondary">Retour</a>
             {{ form_row(form.submit) }}
         </div>
         {{ form_end(form) }}

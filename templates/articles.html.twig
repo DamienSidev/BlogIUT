@@ -13,16 +13,26 @@
         <div class="card">
             <div class="card-title">Mon article</div>
             <div class="card-body">
-                <label class="fw-bold">Titre</label>
-                <p>{{ article.title }}</p>
-                <p><strong>Contenu</strong></p>
-                <p>{{ article.content | raw }}</p>
-                <em>Créé le : {{ article.createdAt | format_datetime('short', 'short', locale: 'fr') }}</em>
-                {#    <em>Créé le : {{ article.createdAt | date("d/m/Y à H:i") }}</em>#}
+                <div class="row">
+                    <div class="col-lg-9">
+                        <label class="fw-bold">Titre</label>
+                        <p>{{ article.title }}</p>
+                        <p><strong>Contenu</strong></p>
+                        <p>{{ article.content | raw }}</p>
+                        <em>Créé le : {{ article.createdAt | format_datetime('short', 'short', locale: 'fr') }}</em>
+                        {#    <em>Créé le : {{ article.createdAt | date("d/m/Y à H:i") }}</em>#}
+                    </div>
+                    <div class="col">
+                        {% if article.imageName %}
+                        <img src="{{ path('article_image', {id: article.id}) }}" alt="Image">
+                        {% endif %}
+                    </div>
+                </div>
+
             </div>
-            <div class="card-footer d-flex justify-content-end">
+            <div class="card-footer d-flex justify-content-end gap-1">
                 <a href="{{ path('home') }}" class="btn btn-secondary">Retour</a>
-                <a href="{{ path('article_edit', {id: article.id}) }}" class="btn btn-primary">
+                <a href="{{ path('edit', {id: article.id}) }}" class="btn btn-primary">
                 Modifier
                 </a>
             </div>
