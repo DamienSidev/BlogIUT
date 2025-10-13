@@ -35,8 +35,15 @@ class EventController extends AbstractController
         return $this->render('event/new.html.twig', [
             'form' => $form,
         ]);
+    }
 
-        dd($event);
-//        return $this->render('event/index.html.twig');
+    #[Route("/change/date/{id}", name: "change_date", requirements: ['id' => '\d+'], methods: ['POST'])]
+    public function changeDate(Event $event, Request $request, EntityManagerInterface $em)
+    {
+        $newDate = new \DateTime($request->request->get("newdate"));
+        $event->setDate($newDate);
+        $em->flush();
+
+        return $this->json(["message" => "Évenement modifié", "type" => "success"]);
     }
 }

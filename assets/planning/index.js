@@ -3,6 +3,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction'
+import axios from "axios";
+import toastr from 'toastr';
 
 let calendarEl = document.getElementById('calendar');
 let calendar = new Calendar(calendarEl, {
@@ -16,6 +18,19 @@ let calendar = new Calendar(calendarEl, {
     events: '/planning/events',
     dateClick: function(info) {
         location.href = '/event/new?date=' + info.dateStr.split('+')[0]
+    },
+    editable: true,
+    eventDrop: function(info) {
+        const event = info.event;
+        const newDate = event.startStr
+        const id = event.id
+        const params = new FormData()
+        params.append('newdate', newDate);
+        axios.post('/event/change/date/' + event.id, params).then(response => {
+            if (response.status === 200) {
+                toastr[response.data.type](response.data.message);
+            }
+        })
     }
     // events: [
     //     {

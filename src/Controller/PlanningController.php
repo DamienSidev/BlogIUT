@@ -30,6 +30,7 @@ class PlanningController extends AbstractController
             $startDate = new \DateTimeImmutable($event->getDate()->format("Y-m-d 08:00:00"));
             $endDate = $startDate->modify("+" . $event->getDuration() . " minutes");
             $tabEvents[] = [
+                "id" => $event->getId(),
                 "title" => $event->getTitle(),
                 "start" => $startDate->format("Y-m-d H:i"),
                 "end" => $endDate->format("Y-m-d H:i")
