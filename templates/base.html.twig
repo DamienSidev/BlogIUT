@@ -14,6 +14,12 @@
         {% endblock %}
     </head>
     <body>
+    <ul>
+        <li><a href="{{ path('home') }}">Mes articles</a></li>
+        <li><a href="{{ path('planning_index') }}">Planning</a></li>
+    </ul>
+
+
     <div class="container m-2 p-2">
         {% block body %}
             body

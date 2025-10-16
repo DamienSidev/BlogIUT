@@ -46,4 +46,23 @@ class EventController extends AbstractController
 
         return $this->json(["message" => "Évenement modifié", "type" => "success"]);
     }
+
+    #[Route("/edit/{id}", name: "edit" , requirements: ["id" => "\d+"], methods: ["GET", "POST"])]
+    public function edit(Request $request, Event $event, EntityManagerInterface $em): Response{
+        $form = $this->createForm(EventType::class, $event);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $em->flush();
+                $this->addFlash('success', "L'event a bien été modifié");
+            } catch (\Exception $exception) {
+                $this->addFlash('error', $exception->getMessage());
+            }
+        }
+        return $this->render('event/edit.html.twig', [
+            'form' => $form,
+            'event' => $event,
+        ]);
+    }
 }
