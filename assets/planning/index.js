@@ -3,17 +3,20 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction'
+import frLocale from '@fullcalendar/core/locales/fr';
 import axios from "axios";
 import toastr from 'toastr';
 
 let calendarEl = document.getElementById('calendar');
 let calendar = new Calendar(calendarEl, {
-    plugins: [ dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin ],
+    locales: [ frLocale ],
+    locale: 'fr', // the initial locale. if not specified, uses the first one
+    plugins: [ timeGridPlugin, dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin ],
     initialView: 'dayGridMonth',
     headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,listWeek'
+        right: 'timeGrid,dayGridMonth,timeGridWeek,listWeek'
     },
     events: '/planning/events',
     dateClick: function(info) {
