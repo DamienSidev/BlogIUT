@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title"><p>Evénement</p></div>
+        </div>
+        {{ form_start(form) }}
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-6">{{ form.title }}</div>
+                <div class="col-lg-6">{{ form.date }}</div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">{{ form.duration }}</div>
+                <div class="col-lg-6">{{ form.place }}</div>
+            </div>
+            <div class="row">
+                <div class="col">{{ form.users }}</div>
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-end">
+            <a href="{{ path('event', {id: event.id}) }}" class="btn btn-secondary">Retour</a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

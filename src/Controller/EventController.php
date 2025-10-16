@@ -37,6 +37,15 @@ class EventController extends AbstractController
         ]);
     }
 
+    #[Route('/show/{id}', name: "show", requirements: ['id' => '\d+'])]
+    public function edit_event(Event $event, Request $request, EntityManagerInterface $em): Response
+    {
+        dd($event);
+        return $this->render("event.html.twig",[
+            "event" => $event
+        ]);
+    }
+
     #[Route("/change/date/{id}", name: "change_date", requirements: ['id' => '\d+'], methods: ['POST'])]
     public function changeDate(Event $event, Request $request, EntityManagerInterface $em)
     {

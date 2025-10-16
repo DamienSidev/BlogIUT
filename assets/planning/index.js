@@ -22,6 +22,9 @@ let calendar = new Calendar(calendarEl, {
     dateClick: function(info) {
         location.href = '/event/new?date=' + info.dateStr.split('+')[0]
     },
+    eventClick: function(info) {
+         location.href = '/event/show/' + info.event.id
+    },
     editable: true,
     eventDrop: function(info) {
         const event = info.event;
